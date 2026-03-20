@@ -14,6 +14,8 @@
       background-size: 800% 800%;
       animation: bgMove 6s linear infinite;
       font-family: "Impact", "Arial Black", "Microsoft YaHei", sans-serif;
+      user-select: none;
+      cursor: pointer;
     }
 
     @keyframes bgMove {
@@ -53,6 +55,33 @@
       100% { filter: hue-rotate(360deg); }
     }
 
+    @keyframes glitch {
+      0% { transform: translate(0, 0) skew(0deg); }
+      10% { transform: translate(-8px, 3px) skew(4deg); }
+      20% { transform: translate(6px, -4px) skew(-3deg); }
+      30% { transform: translate(-10px, 2px) skew(6deg); }
+      40% { transform: translate(8px, 0) skew(-5deg); }
+      50% { transform: translate(-4px, -5px) skew(3deg); }
+      60% { transform: translate(10px, 4px) skew(-6deg); }
+      70% { transform: translate(-7px, 1px) skew(5deg); }
+      80% { transform: translate(5px, -3px) skew(-2deg); }
+      90% { transform: translate(-3px, 2px) skew(1deg); }
+      100% { transform: translate(0, 0) skew(0deg); }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translate(0,0) rotate(0deg); }
+      20% { transform: translate(-6px, 2px) rotate(-1deg); }
+      40% { transform: translate(5px, -3px) rotate(1deg); }
+      60% { transform: translate(-4px, 4px) rotate(-1deg); }
+      80% { transform: translate(6px, -2px) rotate(1deg); }
+    }
+
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
     .wrap {
       position: relative;
       width: 100vw;
@@ -68,6 +97,7 @@
       text-align: center;
       transform-style: preserve-3d;
       animation: spin 2.2s ease-in-out infinite, hue 3s linear infinite;
+      transition: transform 0.4s ease, opacity 0.4s ease;
     }
 
     .main {
@@ -95,6 +125,25 @@
         0 0 30px rgba(0,0,0,0.5),
         inset 0 0 30px rgba(255,255,255,0.18);
       mix-blend-mode: screen;
+      position: relative;
+      overflow: hidden;
+      transition:
+        opacity 0.5s ease,
+        transform 0.5s ease,
+        filter 0.5s ease,
+        background 0.5s ease,
+        border-color 0.5s ease;
+    }
+
+    .main::before,
+    .main::after {
+      content: "hello 张华群";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      pointer-events: none;
     }
 
     .small {
@@ -107,6 +156,7 @@
         0 0 8px #fff,
         0 0 20px #fff,
         0 0 35px #fff;
+      transition: opacity 0.4s ease;
     }
 
     .extra {
@@ -117,6 +167,7 @@
       border: 14px dotted rgba(255,255,255,0.7);
       animation: spin 8s linear infinite reverse;
       filter: blur(0.5px);
+      transition: opacity 0.4s ease;
     }
 
     .extra2 {
@@ -127,6 +178,7 @@
       border: 10px dashed rgba(0,0,0,0.55);
       animation: spin 4s linear infinite;
       mix-blend-mode: multiply;
+      transition: opacity 0.4s ease;
     }
 
     .rainbow {
@@ -144,6 +196,7 @@
         0 0 20px #00ffff;
       animation: hue 2.5s linear infinite;
       transform: scale(1.4);
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .blast {
@@ -161,6 +214,7 @@
       text-shadow:
         0 0 12px rgba(0,0,0,0.5),
         0 0 40px rgba(255,255,255,0.25);
+      transition: opacity 0.4s ease;
     }
 
     .stamp {
@@ -175,6 +229,7 @@
       transform: rotate(-12deg);
       box-shadow: 10px 10px 0 rgba(0,0,0,0.35);
       animation: pulse 0.8s ease-in-out infinite;
+      transition: opacity 0.4s ease, transform 0.4s ease;
     }
 
     .strip {
@@ -191,6 +246,7 @@
       padding: 0.3em 0;
       overflow: hidden;
       white-space: nowrap;
+      transition: opacity 0.4s ease;
     }
 
     .scrolltext {
@@ -199,9 +255,175 @@
       animation: scroll 10s linear infinite;
     }
 
-    @keyframes scroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
+    .hint {
+      position: absolute;
+      top: calc(50% + 140px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(14px, 2.5vw, 28px);
+      color: rgba(255,255,255,0.95);
+      text-shadow: 0 0 8px #000, 0 0 20px #ff0, 0 0 30px #0ff;
+      padding: 0.2em 0.6em;
+      background: rgba(0,0,0,0.25);
+      border: 3px solid rgba(255,255,255,0.6);
+      border-radius: 999px;
+      animation: pulse 1s ease-in-out infinite;
+      pointer-events: none;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    body.clicked {
+      background: radial-gradient(circle at center, #000 0%, #0b0018 35%, #22004c 70%, #ff0055 100%);
+      animation: none;
+    }
+
+    body.clicked .strip,
+    body.clicked .rainbow,
+    body.clicked .stamp,
+    body.clicked .blast,
+    body.clicked .hint {
+      opacity: 0;
+      transform: scale(0.85);
+    }
+
+    body.clicked .core {
+      animation: shake 0.18s linear infinite, hue 0.7s linear infinite;
+    }
+
+    body.clicked .main {
+      opacity: 1;
+      color: #00ffe1;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(0,255,225,0.12), rgba(255,0,153,0.12));
+      border: 10px solid #00ffe1;
+      box-shadow:
+        0 0 0 10px rgba(255,255,255,0.08),
+        0 0 45px rgba(0,255,225,0.95),
+        0 0 90px rgba(255,0,153,0.65),
+        inset 0 0 40px rgba(255,255,255,0.18);
+      text-shadow:
+        0 0 10px #000,
+        0 0 25px #00ffe1,
+        0 0 35px #ff00ff,
+        0 0 60px #ffffff,
+        6px 6px 0 #000;
+      animation: glitch 0.12s infinite, pulse 0.28s ease-in-out infinite, flicker 0.7s linear infinite;
+      transform: rotateX(24deg) rotateZ(-2deg) scale(1.18);
+      letter-spacing: 0.18em;
+      mix-blend-mode: normal;
+    }
+
+    body.clicked .small {
+      opacity: 0;
+    }
+
+    body.clicked .extra {
+      inset: -22%;
+      border-width: 22px;
+      border-style: solid;
+      border-color: rgba(255,255,255,0.25);
+      animation-duration: 1.5s;
+      opacity: 0.9;
+      filter: blur(1px);
+    }
+
+    body.clicked .extra2 {
+      inset: -30%;
+      border-width: 16px;
+      border-style: dashed;
+      border-color: rgba(0,255,225,0.7);
+      animation-duration: 0.8s;
+      opacity: 1;
+      mix-blend-mode: screen;
+    }
+
+    body.clicked .main::before {
+      content: "你是个人机";
+      opacity: 0.2;
+      color: #ff00ff;
+      mix-blend-mode: screen;
+      animation: glitch 0.08s infinite;
+    }
+
+    body.clicked .main::after {
+      content: "你是个人机";
+      opacity: 0.2;
+      color: #00ffff;
+      transform: translate(6px, -2px);
+      mix-blend-mode: screen;
+      animation: glitch 0.08s infinite reverse;
+    }
+
+    body.clicked .main .text {
+      display: inline-block;
+      animation: glitch 0.12s infinite, hue 0.7s linear infinite, pulse 0.35s infinite;
+      text-shadow:
+        0 0 8px #fff,
+        0 0 18px #00ffff,
+        0 0 28px #ff00ff,
+        0 0 48px #ffff00,
+        8px 8px 0 #000,
+        -8px -8px 0 #000;
+    }
+
+    body.clicked .main .text::before,
+    body.clicked .main .text::after {
+      content: "你是个人机";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    body.clicked .main .text::before {
+      transform: translate(-7px, 0);
+      color: #ff0055;
+      clip-path: inset(0 0 50% 0);
+    }
+
+    body.clicked .main .text::after {
+      transform: translate(7px, 0);
+      color: #00ffff;
+      clip-path: inset(50% 0 0 0);
+    }
+
+    body.clicked .core {
+      filter: saturate(2.5) contrast(1.4);
+    }
+
+    body.clicked .wrap::before {
+      content: "";
+      position: absolute;
+      inset: -20%;
+      background:
+        radial-gradient(circle, rgba(255,255,255,0.18) 0 2px, transparent 3px) 0 0 / 22px 22px,
+        radial-gradient(circle, rgba(255,0,255,0.16) 0 2px, transparent 3px) 11px 11px / 22px 22px;
+      animation: spin 10s linear infinite reverse;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    body.clicked .wrap::after {
+      content: "你是个人机";
+      position: absolute;
+      bottom: 10vh;
+      font-size: clamp(30px, 6vw, 88px);
+      font-weight: 900;
+      color: #fff;
+      text-shadow:
+        0 0 10px #000,
+        0 0 20px #ff00ff,
+        0 0 35px #00ffff,
+        0 0 60px #ffffff;
+      letter-spacing: 0.3em;
+      opacity: 0.95;
+      animation: pulse 0.25s infinite, hue 0.5s linear infinite;
+      pointer-events: none;
+    }
+
+    .main, .stamp, .strip, .rainbow, .hint, .blast {
+      will-change: transform, opacity, filter;
     }
   </style>
 </head>
@@ -214,14 +436,16 @@
   <div class="blast">张华群</div>
 
   <div class="wrap">
-    <div class="core">
+    <div class="core" id="core">
       <div class="extra"></div>
       <div class="extra2"></div>
-      <div class="main">
+      <div class="main" id="main">
         <span class="small">HELLO</span>
-        张华群
+        <span class="text" id="centerText">张华群</span>
       </div>
     </div>
+
+    <div class="hint">点击中间文字</div>
   </div>
 
   <div class="rainbow">
@@ -229,6 +453,22 @@
       ✨ hello 张华群 ✨ hello 张华群 ✨ hello 张华群 ✨ hello 张华群 ✨
     </marquee>
   </div>
+
+  <script>
+    const body = document.body;
+    const main = document.getElementById('main');
+    const centerText = document.getElementById('centerText');
+    const hint = document.querySelector('.hint');
+
+    let clicked = false;
+
+    main.addEventListener('click', () => {
+      if (clicked) return;
+      clicked = true;
+      body.classList.add('clicked');
+      centerText.textContent = '你是个人机';
+      hint.textContent = '已切换模式';
+    });
+  </script>
 </body>
 </html>
-

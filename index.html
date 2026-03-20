@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>hello 张华群</title>
+  <title>张华群开播了? </title>
   <style>
     html, body {
       width: 100%;
@@ -137,7 +137,7 @@
 
     .main::before,
     .main::after {
-      content: "hello 张华群";
+      content: "张华群开播了?";
       position: absolute;
       inset: 0;
       display: grid;
@@ -345,7 +345,7 @@
     }
 
     body.clicked .main::after {
-      content: "你是个人机";
+      content: "我靠真开播了";
       opacity: 0.2;
       color: #00ffff;
       transform: translate(6px, -2px);
@@ -367,7 +367,7 @@
 
     body.clicked .main .text::before,
     body.clicked .main .text::after {
-      content: "你是个人机";
+      content: "我靠真开播了";
       position: absolute;
       inset: 0;
       display: grid;
@@ -405,7 +405,7 @@
     }
 
     body.clicked .wrap::after {
-      content: "你是个人机";
+      content: "我靠真开播了";
       position: absolute;
       bottom: 10vh;
       font-size: clamp(30px, 6vw, 88px);
@@ -432,7 +432,7 @@
     <span class="scrolltext">🔥🔥🔥  hello 张华群  hello 张华群  hello 张华群  hello 张华群  hello 张华群  🔥🔥🔥</span>
   </div>
 
-  <div class="stamp">超·夸·张</div>
+  <div class="stamp">开播了?</div>
   <div class="blast">张华群</div>
 
   <div class="wrap">
@@ -466,7 +466,7 @@
       if (clicked) return;
       clicked = true;
       body.classList.add('clicked');
-      centerText.textContent = '你是个人机';
+      centerText.textContent = '我靠真开播了';
       hint.textContent = '已切换模式';
     });
   </script>
